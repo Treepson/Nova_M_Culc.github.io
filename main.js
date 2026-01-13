@@ -2,7 +2,7 @@
   "use strict";
 
   const DATA = {
-    base: { device:"Orion NOVA L (LTE)", normal:140, alarm:140 },
+    base: { device:"Orion NOVA M", normal:200, alarm:200 },
 
     modulesInner: [
       { name:"M-OUT2R", img:"assets/modules/M-OUT2R.png", normal:40, alarm:40 },
