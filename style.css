@@ -379,12 +379,22 @@ th{color:#c0c0c0;font-weight:500;}
   outline:2px solid #00ff88;
   box-shadow:0 0 12px #00ff88;
   border-radius:12px;
+
 }
 .card.disabled{
   opacity:0.4;
   filter:grayscale(100%);
   cursor:not-allowed;
   pointer-events:none;
+}
+.card.conflict::after {
+  content: "Несумісно";
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: #aaa;
 }
 
 

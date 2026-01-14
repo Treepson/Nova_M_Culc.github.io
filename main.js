@@ -147,6 +147,21 @@
     "M-X": 1,
     "M-WiFi": 1
   };
+  // Несумісні модулі універсального слота
+  const MODULE_CONFLICTS = {
+  "M-WiFi": ["M-NET+"],
+  "M-NET+": ["M-WiFi"]
+  };
+  
+  function hasModuleConflict(moduleName) {
+  const conflicts = MODULE_CONFLICTS[moduleName];
+  if (!conflicts) return false;
+
+  return universalSlots.some(
+    s => s && conflicts.includes(s.name)
+  );
+  }
+
   let currentSlotIndex = null;
   let slotButtons = [];
 
@@ -487,7 +502,7 @@
       const card=document.createElement("div");
       card.className="card";
 
-      // ✅ ВІЗУАЛЬНЕ ВИДІЛЕННЯ M-Z
+      // ВІЗУАЛЬНЕ ВИДІЛЕННЯ M-Z
     if (
     it.name === "M-Z" &&
     currentContext?.type === "main" &&
@@ -644,15 +659,20 @@ function clearTabs(){
       // редагуємо конкретний слот – перевіряємо, чи не перевищимо ліміт в інших слотах
       isFull = (!isSelected && other >= max);
     }
-
-    if(isSelected){
-      card.classList.add("selected");
-    }
-    if(isFull){
-      card.classList.add("disabled");
+    if (isSelected) {
+    card.classList.add("selected");
     }
 
-    
+    if (isFull || hasModuleConflict(m.name)) {
+    card.classList.add("disabled");
+
+    if (hasModuleConflict(m.name)) {
+    card.classList.add("conflict");
+  }
+}
+  
+
+// Захист від кліку
 card.addEventListener("click", () => {
   if (card.classList.contains("disabled")) return;
   if (currentSlotIndex == null) return;
